@@ -7,3 +7,7 @@ library(jsonlite)
 
 auth <- rtweet_app()
 auth_save(auth, "CP")
+
+#second method
+
+auth_setup_default()
