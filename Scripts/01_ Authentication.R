@@ -5,8 +5,12 @@ library(rtweet)
 library(tidyverse)
 library(jsonlite)
 
-auth <- rtweet_app()
-auth_save(auth, "CP")
+aut1 <- rtweet_app()
+auth_save(aut1, "Cristinap")
+
+auth_as("Cristinap")
+
+aut_token <- rtweet_app(token)
 
 #second method
 
