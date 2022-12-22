@@ -48,8 +48,10 @@ df_Azione <- data.frame(word = names(words),freq=words)
 library(wordcloud2)
 library(wordcloud)
 
-wordcloud2(data=df_Azione, size=1, shuffle = F, color='random-dark')
-
+wordcloud(words = df_Azione$word, freq = df_Azione$freq, min.freq = 100,
+          max.words=100, random.order=FALSE, rot.per=0.35,
+          colors=brewer.pal(8, "Dark2"),
+          scale=c(2,0.60))
 
 #Fratelli d'Italia 
 
@@ -86,7 +88,10 @@ matrix_FDI <- as.matrix(matrix_FDI)
 words <- sort(rowSums(matrix_FDI),decreasing=TRUE) 
 df_FDI <- data.frame(word = names(words),freq=words) 
 
-wordcloud2(data=df_FDI, size=0.5, color='random-dark')
+wordcloud(words = df_FDI$word, freq = df_FDI$freq, min.freq = 100,
+          max.words=100, random.order=FALSE, rot.per=0.35,
+          colors=brewer.pal(8, "Dark2"),
+          scale=c(2,0.60))
 
 # Forza italia 
 
@@ -123,7 +128,10 @@ matrix_FI <- as.matrix(matrix_FI)
 words <- sort(rowSums(matrix_FI),decreasing=TRUE) 
 df_FI <- data.frame(word = names(words),freq=words) 
 
-wordcloud2(data=df_FI, size=0.8, color='random-dark')
+wordcloud(words = df_FI$word, freq = df_FI$freq, min.freq = 100,
+          max.words=100, random.order=FALSE, rot.per=0.35,
+          colors=brewer.pal(8, "Dark2"),
+          scale=c(2,0.60))
 
 #Italia viva
 
@@ -160,7 +168,10 @@ matrix_IV <- as.matrix(matrix_IV)
 words <- sort(rowSums(matrix_IV),decreasing=TRUE) 
 df_IV <- data.frame(word = names(words),freq=words) 
 
-wordcloud2(data=df_IV, size=0.7, color='random-dark')
+wordcloud(words = df_IV$word, freq = df_IV$freq, min.freq = 100,
+          max.words=100, random.order=FALSE, rot.per=0.35,
+          colors=brewer.pal(8, "Dark2"),
+          scale=c(2,0.60))
 
 #lega 
 
@@ -197,7 +208,10 @@ matrix_lega <- as.matrix(matrix_lega)
 words <- sort(rowSums(matrix_lega),decreasing=TRUE) 
 df_lega<- data.frame(word = names(words),freq=words) 
 
-wordcloud2(data=df_lega, size= 0.8, color='random-dark')
+wordcloud(words = df_lega$word, freq = df_lega$freq, min.freq = 100,
+          max.words=100, random.order=FALSE, rot.per=0.35,
+          colors=brewer.pal(8, "Dark2"),
+          scale=c(2,0.60))
 
 #Movimento 5 stelle
 
@@ -234,7 +248,10 @@ matrix_M5S <- as.matrix(matrix_M5S)
 words <- sort(rowSums(matrix_M5S),decreasing=TRUE) 
 df_M5S <- data.frame(word = names(words),freq=words) 
 
-wordcloud2(data=df_M5S, size=0.8, color='random-dark')
+wordcloud(words = df_M5S$word, freq = df_M5S$freq, min.freq = 80,
+          max.words=120, random.order=FALSE, rot.per=0.35,
+          colors=brewer.pal(8, "Dark2"),
+          scale=c(2,0.60))
 
 # Partito Democratico 
 
@@ -271,5 +288,8 @@ matrix_PD <- as.matrix(matrix_PD)
 words <- sort(rowSums(matrix_PD),decreasing=TRUE) 
 df_PD <- data.frame(word = names(words),freq=words) 
 
-wordcloud2(data=df_PD, size=0.8, color='random-dark')
+wordcloud(words = df_PD$word, freq = df_PD$freq, min.freq = 90,
+          max.words=120, random.order=FALSE, rot.per=0.35,
+          colors=brewer.pal(8, "Dark2"),
+          scale=c(2,0.60))
 
