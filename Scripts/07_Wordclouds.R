@@ -111,3 +111,21 @@ df_M5S <- data.frame(word = names(words),freq=words)
 
 wordcloud2(data=df_M5S, size=0.4, color='random-dark')
 
+# Partito Democratico 
+
+clean_PD <- Corpus(VectorSource(PD_tweets$full_text))
+
+clean_PD <- clean_PD %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+clean_PD <- tm_map(clean_PD, content_transformer(tolower))
+clean_PD <- tm_map(clean_PD, removeWords, stopwords("italian"))
+
+matrix_PD <- TermDocumentMatrix(clean_PD) 
+matrix_PD <- as.matrix(matrix_PD) 
+words <- sort(rowSums(matrix_PD),decreasing=TRUE) 
+df_PD <- data.frame(word = names(words),freq=words) 
+
+wordcloud2(data=df_PD, size=0.4, color='random-dark')
+
