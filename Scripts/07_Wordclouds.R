@@ -1,8 +1,36 @@
 library(RColorBrewer)
 library(tm)
+library(stopwords)
+library(tidytext)
+library(stringr)
+library(stylo)
 
-#Clean the text eliminating the useless words 
-clean_Azione <- Corpus(VectorSource(Azione_tweets$full_text))
+
+# Before creating the word cloud it's necessary to clean the text 
+
+Azione <- as.character(Azione_tweets$full_text)
+Azione<- str_replace_all(Azione_tweets$full_text, "[\'’]", "' ")
+Azione<- gsub("\\$", "", Azione_tweets$full_text) 
+Azione <- gsub("@\\w+", "", Azione_tweets$full_text)
+Azione <- gsub("[[:punct:]]","", Azione_tweets$full_text)
+Azione <- gsub("http\\w+", "", Azione_tweets$full_text)
+Azione <- gsub("[ |\t]{2,}", "", Azione_tweets$full_text)
+Azione <- gsub("^ ", "", Azione_tweets$full_text)
+Azione <- gsub(" $", "", Azione_tweets$full_text)
+Azione <- gsub("href", "", Azione_tweets$full_text)
+Azione <- gsub("([0-9])","", Azione_tweets$full_text)
+
+
+stop_words_ita<-tibble(word=stopwords("it"))
+
+tokens_Azione <- tibble(text = Azione) %>%
+  unnest_tokens(word, text) %>%
+  dplyr::anti_join(stop_words_ita)%>%
+  count(word, sort = TRUE)
+
+tokens_Azione_save<-sapply(tokens_Azione, as.character)
+
+clean_Azione <- Corpus(VectorSource(tokens_Azione_save))
 
 clean_Azione <- clean_Azione %>%
   tm_map(removeNumbers) %>%
@@ -20,10 +48,31 @@ df_Azione <- data.frame(word = names(words),freq=words)
 library(wordcloud2)
 library(wordcloud)
 
-wordcloud2(data=df_Azione, size=0.4, color='random-dark')
+wordcloud2(data=df_Azione, size=1, shuffle = F, color='random-dark')
+
 
 #Fratelli d'Italia 
-clean_FDI <- Corpus(VectorSource(FDI_tweets$full_text))
+
+FDI <- as.character(FDI_tweets$full_text)
+FDI<- str_replace_all(FDI_tweets$full_text, "[\'’]", "' ")
+FDI<- gsub("\\$", "", FDI_tweets$full_text) 
+FDI <- gsub("@\\w+", "", FDI_tweets$full_text)
+FDI <- gsub("[[:punct:]]","", FDI_tweets$full_text)
+FDI <- gsub("http\\w+", "", FDI_tweets$full_text)
+FDI <- gsub("[ |\t]{2,}", "", FDI_tweets$full_text)
+FDI <- gsub("^ ", "", FDI_tweets$full_text)
+FDI <- gsub(" $", "", FDI_tweets$full_text)
+FDI <- gsub("href", "", FDI_tweets$full_text)
+FDI <- gsub("([0-9])","", FDI_tweets$full_text)
+
+tokens_FDI <- tibble(text = FDI) %>%
+  unnest_tokens(word, text) %>%
+  dplyr::anti_join(stop_words_ita)%>%
+  count(word, sort = TRUE)
+
+tokens_FDI_save<-sapply(tokens_FDI, as.character)
+
+clean_FDI <- Corpus(VectorSource(tokens_FDI_save))
 
 clean_FDI <- clean_FDI %>%
   tm_map(removeNumbers) %>%
@@ -37,11 +86,30 @@ matrix_FDI <- as.matrix(matrix_FDI)
 words <- sort(rowSums(matrix_FDI),decreasing=TRUE) 
 df_FDI <- data.frame(word = names(words),freq=words) 
 
-wordcloud2(data=df_FDI, size=0.4, color='random-dark')
+wordcloud2(data=df_FDI, size=0.5, color='random-dark')
 
 # Forza italia 
 
-clean_FI <- Corpus(VectorSource(FI_tweets$full_text))
+FI <- as.character(FI_tweets$full_text)
+FI<- str_replace_all(FI_tweets$full_text, "[\'’]", "' ")
+FI<- gsub("\\$", "", FI_tweets$full_text) 
+FI <- gsub("@\\w+", "", FI_tweets$full_text)
+FI <- gsub("[[:punct:]]","", FI_tweets$full_text)
+FI <- gsub("http\\w+", "", FI_tweets$full_text)
+FI <- gsub("[ |\t]{2,}", "", FI_tweets$full_text)
+FI<- gsub("^ ", "", FI_tweets$full_text)
+FI <- gsub(" $", "", FI_tweets$full_text)
+FI <- gsub("href", "", FI_tweets$full_text)
+FI <- gsub("([0-9])","", FI_tweets$full_text)
+
+tokens_FI <- tibble(text = FI) %>%
+  unnest_tokens(word, text) %>%
+  dplyr::anti_join(stop_words_ita)%>%
+  count(word, sort = TRUE)
+
+tokens_FI_save<-sapply(tokens_FI, as.character)
+
+clean_FI <- Corpus(VectorSource(tokens_FI_save))
 
 clean_FI <- clean_FI %>%
   tm_map(removeNumbers) %>%
@@ -55,7 +123,7 @@ matrix_FI <- as.matrix(matrix_FI)
 words <- sort(rowSums(matrix_FI),decreasing=TRUE) 
 df_FI <- data.frame(word = names(words),freq=words) 
 
-wordcloud2(data=df_FI, size=0.4, color='random-dark')
+wordcloud2(data=df_FI, size=0.8, color='random-dark')
 
 #Italia viva
 
