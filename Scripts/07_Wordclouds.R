@@ -75,3 +75,39 @@ df_IV <- data.frame(word = names(words),freq=words)
 
 wordcloud2(data=df_IV, size=0.4, color='random-dark')
 
+#lega 
+
+clean_lega <- Corpus(VectorSource(lega_tweets$full_text))
+
+clean_lega <- clean_lega %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+clean_lega <- tm_map(clean_lega, content_transformer(tolower))
+clean_lega <- tm_map(clean_lega, removeWords, stopwords("italian"))
+
+matrix_lega <- TermDocumentMatrix(clean_lega) 
+matrix_lega <- as.matrix(matrix_lega) 
+words <- sort(rowSums(matrix_lega),decreasing=TRUE) 
+df_lega<- data.frame(word = names(words),freq=words) 
+
+wordcloud2(data=df_lega, size=0.4, color='random-dark')
+
+#Movimento 5 stelle
+
+clean_M5S <- Corpus(VectorSource(M5S_tweets$full_text))
+
+clean_M5S<- clean_M5S %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+clean_M5S <- tm_map(clean_M5S, content_transformer(tolower))
+clean_M5S <- tm_map(clean_M5S, removeWords, stopwords("italian"))
+
+matrix_M5S <- TermDocumentMatrix(clean_M5S) 
+matrix_M5S <- as.matrix(matrix_M5S) 
+words <- sort(rowSums(matrix_M5S),decreasing=TRUE) 
+df_M5S <- data.frame(word = names(words),freq=words) 
+
+wordcloud2(data=df_M5S, size=0.4, color='random-dark')
+
