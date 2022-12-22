@@ -1,5 +1,6 @@
 
-# I create some plots to show the frequenncy distribution of tweets 
+# I create some plots to show the frequency distribution of tweets and I save them
+# as images
 
 library(ggplot2)
 library(scales)
@@ -11,7 +12,8 @@ tweets_frequency %>%
   xlab("Parties") +
   ggtitle("Frequency distribution of tweets about Iran for each party") +
   scale_x_discrete(labels = label_wrap(10))  +
-  theme_bw() 
+  theme_bw() +
+  ggsave("Iran_tweets_distribution.jpeg")
 
 tweets_frequency %>% 
   ggplot(aes(x = Parties, y=tweets_ucraina)) +
@@ -20,7 +22,8 @@ tweets_frequency %>%
   xlab("Parties") +
   ggtitle("Frequency distribution of tweets about Ukraine for each party") +
   scale_x_discrete(labels = label_wrap(10))  +
-  theme_bw() 
+  theme_bw() +
+  ggsave("Ukraine_tweets_distribution.jpeg")
 
 tweets_frequency %>% 
   ggplot(aes(x = Parties, y=tweets_qatar)) +
@@ -29,7 +32,8 @@ tweets_frequency %>%
   xlab("Parties") +
   ggtitle("Frequency distribution of tweets about Qatar for each party") +
   scale_x_discrete(labels = label_wrap(10))  + 
-  theme_bw()  
+  theme_bw()  +
+  ggsave("Qatar_tweets_distribution.jpeg")
 
 tweets_frequency %>% 
   ggplot(aes(x = Parties, y=tweets_energia)) +
@@ -38,64 +42,19 @@ tweets_frequency %>%
   xlab("Parties") +
   ggtitle("Frequency distribution of tweets about Energy crisis for each party") +
   scale_x_discrete(labels = label_wrap(10)) + 
-  theme_bw()
-
-# To compare the different plots I try to have the proportions in the place of 
-# the absolute frequencies on the y axis. I also save them as images. 
-
-tweets_frequency %>% 
-  ggplot(aes(x = Parties, y=(tweets_iran)/sum(tweets_iran)))+
-  geom_col(alpha=0.8, fill="pink") +
-  ylab("Tweets about Iran") +
-  xlab("Parties") +
-  ggtitle("Distribution of tweets about Iran for each party") +
-  scale_y_continuous(labels = scales::percent)+
-  scale_x_discrete(labels = label_wrap(10)) +
-  theme_bw() +
-  ggsave("Iran_tweets_distribution.jpeg")
-
-
-tweets_frequency %>% 
-  ggplot(aes(x = Parties, y=(tweets_ucraina)/sum(tweets_ucraina)))+
-  geom_col(alpha=0.5, fill="blue") +
-  ylab("Tweets about Ukraine") +
-  xlab("Parties") +
-  ggtitle("Distribution of tweets about Ukraine for each party") +
-  scale_y_continuous(labels = scales::percent)+
-  scale_x_discrete(labels = label_wrap(10))  +
-  theme_bw() +
-  ggsave("Ukraine_tweets_distribution.jpeg")
-  
-
-tweets_frequency %>% 
-  ggplot(aes(x = Parties, y=(tweets_qatar)/sum(tweets_qatar))) +
-  geom_col(alpha=0.5, fill="green") +
-  ylab("Tweets about Qatar") +
-  xlab("Parties") +
-  ggtitle("Distribution of tweets about Qatar for each party") +
-  scale_x_discrete(labels = label_wrap(10))  + 
-  scale_y_continuous(labels = scales::percent) +
-  theme_bw() +
-  ggsave("Qatar_tweets_distribution.jpeg")
-  
-tweets_frequency %>% 
-  ggplot(aes(x = Parties, y=(tweets_energia)/sum(tweets_energia))) +
-  geom_col(alpha=0.5, fill="red") +
-  ylab("Tweets about Energetic crisis") +
-  xlab("Parties") +
-  ggtitle("Distribution of tweets about Energy crisis for each party") +
-  scale_y_continuous(labels = scales::percent) +
-  scale_x_discrete(labels = label_wrap(10)) + 
   theme_bw() +
   ggsave("Energycrisis_tweets_distribution.jpeg")
 
-# Now, I put the plots together to make the comparison easier
+# To compare the different plots I try to have the proportions in the place of 
+# the absolute frequencies on the y axis. I also put the plots together to make
+# the comparison easier.
 # In order to do that I have to create some objects 
 
 library(ggpubr)
 
 a <- tweets_frequency %>% 
-  ggplot(aes(x = Parties, y=(tweets_iran)/sum(tweets_iran)))+
+  ggplot(aes(x = Parties, y=(tweets_iran)/sum(tweets_iran + tweets_ucraina 
+                                              + tweets_qatar + tweets_energia)))+
   geom_col(alpha=0.8, fill="pink") +
   ylab("Tweets about Iran") +
   xlab("Parties") +
@@ -105,7 +64,8 @@ a <- tweets_frequency %>%
 
 
 b <- tweets_frequency %>% 
-  ggplot(aes(x = Parties, y=(tweets_ucraina)/sum(tweets_ucraina)))+
+  ggplot(aes(x = Parties, y=(tweets_ucraina)/sum(tweets_iran + tweets_ucraina 
+                                                 + tweets_qatar + tweets_energia)))+
   geom_col(alpha=0.5, fill="blue") +
   ylab("Tweets about Ukraine") +
   xlab("Parties") +
@@ -115,7 +75,8 @@ b <- tweets_frequency %>%
 
 
 c <-tweets_frequency %>% 
-  ggplot(aes(x = Parties, y=(tweets_qatar)/sum(tweets_qatar))) +
+  ggplot(aes(x = Parties, y=(tweets_qatar)/sum(tweets_iran + tweets_ucraina 
+                                               + tweets_qatar + tweets_energia))) +
   geom_col(alpha=0.5, fill="green") +
   ylab("Tweets about Qatar") +
   xlab("Parties") +
@@ -124,7 +85,8 @@ c <-tweets_frequency %>%
   theme_bw()
 
 d <- tweets_frequency %>% 
-  ggplot(aes(x = Parties, y=(tweets_energia)/sum(tweets_energia))) +
+  ggplot(aes(x = Parties, y=(tweets_energia)/sum(tweets_iran + tweets_ucraina 
+                                                 + tweets_qatar + tweets_energia))) +
   geom_col(alpha=0.5, fill="red") +
   ylab("Tweets about Energetic crisis") +
   xlab("Parties") +
@@ -134,5 +96,6 @@ d <- tweets_frequency %>%
 
 ggarrange(a, b, c, d, 
           ncol = 2, nrow = 2) +
-  ggsave("Finalplot.jpeg", width = 25, height = 20, units = "cm")
+  ggsave("Finalplot_for_comparison.jpeg", width = 25, height = 20, units = "cm")
+
 
