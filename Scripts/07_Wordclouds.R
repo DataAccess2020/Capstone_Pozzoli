@@ -39,3 +39,39 @@ df_FDI <- data.frame(word = names(words),freq=words)
 
 wordcloud2(data=df_FDI, size=0.4, color='random-dark')
 
+# Forza italia 
+
+clean_FI <- Corpus(VectorSource(FI_tweets$full_text))
+
+clean_FI <- clean_FI %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+clean_FI <- tm_map(clean_FI, content_transformer(tolower))
+clean_FI <- tm_map(clean_FI, removeWords, stopwords("italian"))
+
+matrix_FI <- TermDocumentMatrix(clean_FI) 
+matrix_FI <- as.matrix(matrix_FI) 
+words <- sort(rowSums(matrix_FI),decreasing=TRUE) 
+df_FI <- data.frame(word = names(words),freq=words) 
+
+wordcloud2(data=df_FI, size=0.4, color='random-dark')
+
+#Italia viva
+
+clean_IV <- Corpus(VectorSource(IV_tweets$full_text))
+
+clean_IV <- clean_IV %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stripWhitespace)
+clean_IV <- tm_map(clean_IV, content_transformer(tolower))
+clean_IV <- tm_map(clean_IV, removeWords, stopwords("italian"))
+
+matrix_IV <- TermDocumentMatrix(clean_IV) 
+matrix_IV <- as.matrix(matrix_IV) 
+words <- sort(rowSums(matrix_IV),decreasing=TRUE) 
+df_IV <- data.frame(word = names(words),freq=words) 
+
+wordcloud2(data=df_IV, size=0.4, color='random-dark')
+
