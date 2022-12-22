@@ -127,7 +127,26 @@ wordcloud2(data=df_FI, size=0.8, color='random-dark')
 
 #Italia viva
 
-clean_IV <- Corpus(VectorSource(IV_tweets$full_text))
+IV <- as.character(IV_tweets$full_text)
+IV<- str_replace_all(IV_tweets$full_text, "[\'’]", "' ")
+IV<- gsub("\\$", "", IV_tweets$full_text) 
+IV <- gsub("@\\w+", "", IV_tweets$full_text)
+IV <- gsub("[[:punct:]]","", IV_tweets$full_text)
+IV <- gsub("http\\w+", "", IV_tweets$full_text)
+IV <- gsub("[ |\t]{2,}", "", IV_tweets$full_text)
+IV<- gsub("^ ", "", IV_tweets$full_text)
+IV <- gsub(" $", "", IV_tweets$full_text)
+IV <- gsub("href", "", IV_tweets$full_text)
+IV <- gsub("([0-9])","", IV_tweets$full_text)
+
+tokens_IV <- tibble(text = IV) %>%
+  unnest_tokens(word, text) %>%
+  dplyr::anti_join(stop_words_ita)%>%
+  count(word, sort = TRUE)
+
+tokens_IV_save<-sapply(tokens_IV, as.character)
+
+clean_IV <- Corpus(VectorSource(tokens_IV_save))
 
 clean_IV <- clean_IV %>%
   tm_map(removeNumbers) %>%
@@ -141,11 +160,30 @@ matrix_IV <- as.matrix(matrix_IV)
 words <- sort(rowSums(matrix_IV),decreasing=TRUE) 
 df_IV <- data.frame(word = names(words),freq=words) 
 
-wordcloud2(data=df_IV, size=0.4, color='random-dark')
+wordcloud2(data=df_IV, size=0.7, color='random-dark')
 
 #lega 
 
-clean_lega <- Corpus(VectorSource(lega_tweets$full_text))
+lega <- as.character(lega_tweets$full_text)
+lega <- str_replace_all(lega_tweets$full_text, "[\'’]", "' ")
+lega <- gsub("\\$", "", lega_tweets$full_text) 
+lega <- gsub("@\\w+", "", lega_tweets$full_text)
+lega <- gsub("[[:punct:]]","", lega_tweets$full_text)
+lega <- gsub("http\\w+", "", lega_tweets$full_text)
+lega <- gsub("[ |\t]{2,}", "", lega_tweets$full_text)
+lega <- gsub("^ ", "", lega_tweets$full_text)
+lega <- gsub(" $", "", lega_tweets$full_text)
+lega <- gsub("href", "", lega_tweets$full_text)
+lega <- gsub("([0-9])","", lega_tweets$full_text)
+
+tokens_lega <- tibble(text = lega) %>%
+  unnest_tokens(word, text) %>%
+  dplyr::anti_join(stop_words_ita)%>%
+  count(word, sort = TRUE)
+
+tokens_lega_save<-sapply(tokens_lega, as.character)
+
+clean_lega <- Corpus(VectorSource(tokens_lega_save))
 
 clean_lega <- clean_lega %>%
   tm_map(removeNumbers) %>%
@@ -159,11 +197,30 @@ matrix_lega <- as.matrix(matrix_lega)
 words <- sort(rowSums(matrix_lega),decreasing=TRUE) 
 df_lega<- data.frame(word = names(words),freq=words) 
 
-wordcloud2(data=df_lega, size=0.4, color='random-dark')
+wordcloud2(data=df_lega, size= 0.8, color='random-dark')
 
 #Movimento 5 stelle
 
-clean_M5S <- Corpus(VectorSource(M5S_tweets$full_text))
+M5S <- as.character(M5S_tweets$full_text)
+M5S<- str_replace_all(M5S_tweets$full_text, "[\'’]", "' ")
+M5S<- gsub("\\$", "", M5S_tweets$full_text) 
+M5S <- gsub("@\\w+", "", M5S_tweets$full_text)
+M5S<- gsub("[[:punct:]]","", M5S_tweets$full_text)
+M5S <- gsub("http\\w+", "", M5S_tweets$full_text)
+M5S <- gsub("[ |\t]{2,}", "", M5S_tweets$full_text)
+M5S <- gsub("^ ", "", M5S_tweets$full_text)
+M5S <- gsub(" $", "", M5S_tweets$full_text)
+M5S <- gsub("href", "", M5S_tweets$full_text)
+M5S <- gsub("([0-9])","", M5S_tweets$full_text)
+
+tokens_M5S <- tibble(text = M5S) %>%
+  unnest_tokens(word, text) %>%
+  dplyr::anti_join(stop_words_ita)%>%
+  count(word, sort = TRUE)
+
+tokens_M5S_save<-sapply(tokens_M5S, as.character)
+
+clean_M5S <- Corpus(VectorSource(tokens_M5S_save))
 
 clean_M5S<- clean_M5S %>%
   tm_map(removeNumbers) %>%
@@ -177,11 +234,30 @@ matrix_M5S <- as.matrix(matrix_M5S)
 words <- sort(rowSums(matrix_M5S),decreasing=TRUE) 
 df_M5S <- data.frame(word = names(words),freq=words) 
 
-wordcloud2(data=df_M5S, size=0.4, color='random-dark')
+wordcloud2(data=df_M5S, size=0.8, color='random-dark')
 
 # Partito Democratico 
 
-clean_PD <- Corpus(VectorSource(PD_tweets$full_text))
+PD <- as.character(PD_tweets$full_text)
+PD<- str_replace_all(PD_tweets$full_text, "[\'’]", "' ")
+PD<- gsub("\\$", "", PD_tweets$full_text) 
+PD <- gsub("@\\w+", "", PD_tweets$full_text)
+PD <- gsub("[[:punct:]]","", PD_tweets$full_text)
+PD <- gsub("http\\w+", "", PD_tweets$full_text)
+PD <- gsub("[ |\t]{2,}", "", PD_tweets$full_text)
+PD<- gsub("^ ", "", PD_tweets$full_text)
+PD <- gsub(" $", "", PD_tweets$full_text)
+PD <- gsub("href", "", PD_tweets$full_text)
+PD <- gsub("([0-9])","", PD_tweets$full_text)
+
+tokens_PD <- tibble(text = PD) %>%
+  unnest_tokens(word, text) %>%
+  dplyr::anti_join(stop_words_ita)%>%
+  count(word, sort = TRUE)
+
+tokens_PD_save<-sapply(tokens_PD, as.character)
+
+clean_PD <- Corpus(VectorSource(tokens_PD_save))
 
 clean_PD <- clean_PD %>%
   tm_map(removeNumbers) %>%
@@ -195,5 +271,5 @@ matrix_PD <- as.matrix(matrix_PD)
 words <- sort(rowSums(matrix_PD),decreasing=TRUE) 
 df_PD <- data.frame(word = names(words),freq=words) 
 
-wordcloud2(data=df_PD, size=0.4, color='random-dark')
+wordcloud2(data=df_PD, size=0.8, color='random-dark')
 
