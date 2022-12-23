@@ -64,4 +64,6 @@ tweets_IV <- get_timeline(user = italia_viva$screen_name,
                               Sys.sleep(0.5)
 )
 
+#Now I have 7 data frame containing 43 variables, including the full text of tweets 
+# and the creation date 
 
