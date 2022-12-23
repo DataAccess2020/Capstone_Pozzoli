@@ -6,7 +6,7 @@ date: "12/23/2022"
 output: html_document
 ---
 
-```{r setup, include=FALSE, eval= T}
+```{r setup, include=FALSE, eval= F}
 knitr::opts_chunk$set(echo = T)
 ```
 
@@ -44,7 +44,7 @@ In order to start my analysis I have created seven lists on my twitter account. 
 
 The first step to obtain data from the lists is to get a Twitter API. After authenticating to the 'Essential' Twitter API, I imported my lists form Twitter, creating a data frame for each of them with the function 'list_members' from the 'rtweet' package.
 
-```{r, echo =TRUE, eval=TRUE, warning=FALSE, message=FALSE}
+```{r,eval=F, warning=FALSE, message=FALSE}
 #Authentication 
 
 library(rtweet)
@@ -144,7 +144,7 @@ Fratelli_dItalia = lists_members(
 
 To download the tweets I used the function 'get_timeline' form the 'rtweet' package. Then, I have created a data frame for each party, which contains 43 variables, including the tweets' full text and the creation date.
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE, eval=TRUE}
+```{r, warning=FALSE, message=FALSE, eval=F}
 tweets_Azione <- get_timeline(user = Azione$screen_name,
                               n= 10000,
                               verbose = T,
@@ -210,7 +210,7 @@ tweets_IV <- get_timeline(user = italia_viva$screen_name,
 
 After doing that, I have saved the results inside the folder 'Output_Dataframe' using the function 'sapply()' and the function 'write.csv()'.
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE, eval=TRUE}
+```{r, warning=FALSE, message=FALSE, eval=F}
 
 tweets_Azione2 <- sapply(tweets_Azione, as.character)
 write.csv(tweets_Azione2, "Azione_tweets.csv", row.names = F, fileEncoding = "UTF-8")
@@ -239,7 +239,7 @@ write.csv(tweets_PD2, "PD_tweets.csv", row.names = F, fileEncoding = "UTF-8")
 
 To analyse the frequency of tweets for each topic, I have created some regular expressions, containing the keywords for each topic. Then, I have computed the frequency of the keywords on tweets and I have created a data frame containing this information.
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE, eval=TRUE}
+```{r, echo=TRUE, warning=FALSE, message=FALSE, eval=F}
 #Regular expressions 
 
 regex_iran<- "([I|i]ran)|([M|m]ahsa [A|a]mini)"
@@ -249,40 +249,40 @@ regex_ce <- "(caro energia)|(caro bollette)|(prezzo del gas)|(transizione energe
 
 #Analysis
 
-sum(str_count(Azione_tweets$full_text, pattern = regex_iran)) 
-sum(str_count(Azione_tweets$full_text, pattern = regex_ukr))
-sum(str_count(Azione_tweets$full_text, pattern = regex_qatar)) 
-sum(str_count(Azione_tweets$full_text, pattern = regex_ce)) 
+sum(str_count(tweets_Azione$full_text, pattern = regex_iran)) 
+sum(str_count(tweets_Azione$full_text, pattern = regex_ukr))
+sum(str_count(tweets_Azione$full_text, pattern = regex_qatar)) 
+sum(str_count(tweets_Azione$full_text, pattern = regex_ce)) 
 
-sum(str_count(FDI_tweets$full_text, pattern = regex_iran)) 
-sum(str_count(FDI_tweets$full_text, pattern = regex_ukr))
-sum(str_count(FDI_tweets$full_text, pattern = regex_qatar)) 
-sum(str_count(FDI_tweets$full_text, pattern = regex_ce))
+sum(str_count(tweets_FDI$full_text, pattern = regex_iran)) 
+sum(str_count(tweets_FDI$full_text, pattern = regex_ukr))
+sum(str_count(tweets_FDI$full_text, pattern = regex_qatar)) 
+sum(str_count(tweets_FDI$full_text, pattern = regex_ce))
 
-sum(str_count(FI_tweets$full_text, pattern = regex_iran)) 
-sum(str_count(FI_tweets$full_text, pattern = regex_ukr))
-sum(str_count(FI_tweets$full_text, pattern = regex_qatar)) 
-sum(str_count(FI_tweets$full_text, pattern = regex_ce))
+sum(str_count(tweets_FI$full_text, pattern = regex_iran)) 
+sum(str_count(tweets_FI$full_text, pattern = regex_ukr))
+sum(str_count(tweets_FI$full_text, pattern = regex_qatar)) 
+sum(str_count(tweets_FI$full_text, pattern = regex_ce))
 
-sum(str_count(IV_tweets$full_text, pattern = regex_iran)) 
-sum(str_count(IV_tweets$full_text, pattern = regex_ukr))
-sum(str_count(IV_tweets$full_text, pattern = regex_qatar)) 
-sum(str_count(IV_tweets$full_text, pattern = regex_ce))
+sum(str_count(tweets_IV$full_text, pattern = regex_iran)) 
+sum(str_count(tweets_IV$full_text, pattern = regex_ukr))
+sum(str_count(tweets_IV$full_text, pattern = regex_qatar)) 
+sum(str_count(tweets_IV$full_text, pattern = regex_ce))
 
-sum(str_count(lega_tweets$full_text, pattern = regex_iran)) 
-sum(str_count(lega_tweets$full_text, pattern = regex_ukr))
-sum(str_count(lega_tweets$full_text, pattern = regex_qatar)) 
-sum(str_count(lega_tweets$full_text, pattern = regex_ce))
+sum(str_count(tweets_lega$full_text, pattern = regex_iran)) 
+sum(str_count(tweets_lega$full_text, pattern = regex_ukr))
+sum(str_count(tweets_lega$full_text, pattern = regex_qatar)) 
+sum(str_count(tweets_lega$full_text, pattern = regex_ce))
 
-sum(str_count(M5S_tweets$full_text, pattern = regex_iran)) 
-sum(str_count(M5S_tweets$full_text, pattern = regex_ukr))
-sum(str_count(M5S_tweets$full_text, pattern = regex_qatar)) 
-sum(str_count(M5S_tweets$full_text, pattern = regex_ce))
+sum(str_count(tweets_M5S$full_text, pattern = regex_iran)) 
+sum(str_count(tweets_M5S$full_text, pattern = regex_ukr))
+sum(str_count(tweets_M5S$full_text, pattern = regex_qatar)) 
+sum(str_count(tweets_M5S$full_text, pattern = regex_ce))
 
-sum(str_count(PD_tweets$full_text, pattern = regex_iran)) 
-sum(str_count(PD_tweets$full_text, pattern = regex_ukr))
-sum(str_count(PD_tweets$full_text, pattern = regex_qatar)) 
-sum(str_count(PD_tweets$full_text, pattern = regex_ce))
+sum(str_count(tweets_PD$full_text, pattern = regex_iran)) 
+sum(str_count(tweets_PD$full_text, pattern = regex_ukr))
+sum(str_count(tweets_PD$full_text, pattern = regex_qatar)) 
+sum(str_count(tweets_PD$full_text, pattern = regex_ce))
 
 #Data frame
 
@@ -312,7 +312,7 @@ Now that I have the frequency distribution, I can create some plots to show the 
 
 In order to see which is the most common of the four topics, I decided to compute also the relative frequencies and to put the four plots together in the same image.
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE, eval=TRUE}
+```{r, echo=F, warning=FALSE, message=FALSE, eval=F}
 library(ggplot2)
 library(scales)
 
@@ -323,8 +323,7 @@ tweets_frequency %>%
   xlab("Parties") +
   ggtitle("Frequency distribution of tweets about Iran for each party") +
   scale_x_discrete(labels = label_wrap(10))  +
-  theme_bw() +
-  ggsave("Iran_tweets_distribution.jpeg")
+  theme_bw()
 
 tweets_frequency %>% 
   ggplot(aes(x = Parties, y=tweets_ucraina)) +
@@ -333,8 +332,7 @@ tweets_frequency %>%
   xlab("Parties") +
   ggtitle("Frequency distribution of tweets about Ukraine for each party") +
   scale_x_discrete(labels = label_wrap(10))  +
-  theme_bw() +
-  ggsave("Ukraine_tweets_distribution.jpeg")
+  theme_bw()
 
 tweets_frequency %>% 
   ggplot(aes(x = Parties, y=tweets_qatar)) +
@@ -343,8 +341,7 @@ tweets_frequency %>%
   xlab("Parties") +
   ggtitle("Frequency distribution of tweets about Qatar for each party") +
   scale_x_discrete(labels = label_wrap(10))  + 
-  theme_bw()  +
-  ggsave("Qatar_tweets_distribution.jpeg")
+  theme_bw()
 
 tweets_frequency %>% 
   ggplot(aes(x = Parties, y=tweets_energia)) +
@@ -353,13 +350,10 @@ tweets_frequency %>%
   xlab("Parties") +
   ggtitle("Frequency distribution of tweets about Energy crisis for each party") +
   scale_x_discrete(labels = label_wrap(10)) + 
-  theme_bw() +
-  ggsave("Energycrisis_tweets_distribution.jpeg")
+  theme_bw()
 
 #Comparison 
-
 library(ggpubr)
-
 a <- tweets_frequency %>% 
   ggplot(aes(x = Parties, y=(tweets_iran)/sum(tweets_iran + tweets_ucraina 
                                               + tweets_qatar + tweets_energia)))+
@@ -369,8 +363,6 @@ a <- tweets_frequency %>%
   scale_y_continuous(labels = scales::percent)+
   scale_x_discrete(labels = label_wrap(10)) +
   theme_bw()
-
-
 b <- tweets_frequency %>% 
   ggplot(aes(x = Parties, y=(tweets_ucraina)/sum(tweets_iran + tweets_ucraina 
                                                  + tweets_qatar + tweets_energia)))+
@@ -380,8 +372,6 @@ b <- tweets_frequency %>%
   scale_y_continuous(labels = scales::percent)+
   scale_x_discrete(labels = label_wrap(10))  +
   theme_bw()
-
-
 c <-tweets_frequency %>% 
   ggplot(aes(x = Parties, y=(tweets_qatar)/sum(tweets_iran + tweets_ucraina 
                                                + tweets_qatar + tweets_energia))) +
@@ -391,7 +381,6 @@ c <-tweets_frequency %>%
   scale_x_discrete(labels = label_wrap(10))  + 
   scale_y_continuous(labels = scales::percent) +
   theme_bw()
-
 d <- tweets_frequency %>% 
   ggplot(aes(x = Parties, y=(tweets_energia)/sum(tweets_iran + tweets_ucraina 
                                                  + tweets_qatar + tweets_energia))) +
@@ -401,38 +390,42 @@ d <- tweets_frequency %>%
   scale_y_continuous(labels = scales::percent) +
   scale_x_discrete(labels = label_wrap(10)) + 
   theme_bw()
-
 ggarrange(a, b, c, d, 
           ncol = 2, nrow = 2) +
   ggsave("Finalplot_for_comparison.jpeg", width = 25, height = 20, units = "cm")
 
+
 ```
 
+![](/Users/cristinapozzoli/Desktop/Capstone_Pozzoli/Plots/Iran_tweets_distribution.jpeg)
+![](/Users/cristinapozzoli/Desktop/Capstone_Pozzoli/Plots/Ukraine_tweets_distribution.jpeg)
+![](/Users/cristinapozzoli/Desktop/Capstone_Pozzoli/Plots/Qatar_tweets_distribution.jpeg)
+![](/Users/cristinapozzoli/Desktop/Capstone_Pozzoli/Plots/Energycrisis_tweets_distribution.jpeg)
+![](/Users/cristinapozzoli/Desktop/Capstone_Pozzoli/Plots/Finalplot_for_comparison.jpeg)
 ### **Word clouds**
 
 The last passage of the analysis consists on the creation of some word clouds. The word clouds are useful to understand which are the most common topics on the Twitter parties' accounts. Before creating the word clouds it was necessary to clean the text from punctuation, numbers, hashes and other useless staff. To create the word clouds I used the function 'wordcloud' form the homonymous package.
 
-```{r, echo =TRUE, eval=TRUE, warning=FALSE, message=FALSE}
+```{r, eval=F, warning=FALSE, message=FALSE}
 library(RColorBrewer)
 library(tm)
 library(stopwords)
 library(tidytext)
 library(stringr)
-library(stylo)
 
 #Text cleaning 
 
-Azione <- as.character(Azione_tweets$full_text)
-Azione<- str_replace_all(Azione_tweets$full_text, "[\'’]", "' ")
-Azione<- gsub("\\$", "", Azione_tweets$full_text) 
-Azione <- gsub("@\\w+", "", Azione_tweets$full_text)
-Azione <- gsub("[[:punct:]]","", Azione_tweets$full_text)
-Azione <- gsub("http\\w+", "", Azione_tweets$full_text)
-Azione <- gsub("[ |\t]{2,}", "", Azione_tweets$full_text)
-Azione <- gsub("^ ", "", Azione_tweets$full_text)
-Azione <- gsub(" $", "", Azione_tweets$full_text)
-Azione <- gsub("href", "", Azione_tweets$full_text)
-Azione <- gsub("([0-9])","", Azione_tweets$full_text)
+Azione <- as.character(tweets_Azione$full_text)
+Azione<- str_replace_all(tweets_Azione$full_text, "[\'’]", "' ")
+Azione<- gsub("\\$", "", tweets_Azione$full_text) 
+Azione <- gsub("@\\w+", "",tweets_Azione$full_text)
+Azione <- gsub("[[:punct:]]","", tweets_Azione$full_text)
+Azione <- gsub("http\\w+", "", tweets_Azione$full_text)
+Azione <- gsub("[ |\t]{2,}", "", tweets_Azione$full_text)
+Azione <- gsub("^ ", "",tweets_Azione$full_text)
+Azione <- gsub(" $", "", tweets_Azione$full_text)
+Azione <- gsub("href", "", tweets_Azione$full_text)
+Azione <- gsub("([0-9])","", tweets_Azione$full_text)
 
 stop_words_ita<-tibble(word=stopwords("it"))
 
@@ -469,17 +462,17 @@ wordcloud(words = df_Azione$word, freq = df_Azione$freq, min.freq = 100,
 
 # Repeat for each party 
 
-FDI <- as.character(FDI_tweets$full_text)
-FDI<- str_replace_all(FDI_tweets$full_text, "[\'’]", "' ")
-FDI<- gsub("\\$", "", FDI_tweets$full_text) 
-FDI <- gsub("@\\w+", "", FDI_tweets$full_text)
-FDI <- gsub("[[:punct:]]","", FDI_tweets$full_text)
-FDI <- gsub("http\\w+", "", FDI_tweets$full_text)
-FDI <- gsub("[ |\t]{2,}", "", FDI_tweets$full_text)
-FDI <- gsub("^ ", "", FDI_tweets$full_text)
-FDI <- gsub(" $", "", FDI_tweets$full_text)
-FDI <- gsub("href", "", FDI_tweets$full_text)
-FDI <- gsub("([0-9])","", FDI_tweets$full_text)
+FDI <- as.character(tweets_FDI$full_text)
+FDI<- str_replace_all(tweets_FDI$full_text, "[\'’]", "' ")
+FDI<- gsub("\\$", "", tweets_FDI$full_text) 
+FDI <- gsub("@\\w+", "", tweets_FDI$full_text)
+FDI <- gsub("[[:punct:]]","", tweets_FDI$full_text)
+FDI <- gsub("http\\w+", "", tweets_FDI$full_text)
+FDI <- gsub("[ |\t]{2,}", "", tweets_FDI$full_text)
+FDI <- gsub("^ ", "", tweets_FDI$full_text)
+FDI <- gsub(" $", "", tweets_FDI$full_text)
+FDI <- gsub("href", "", tweets_FDI$full_text)
+FDI <- gsub("([0-9])","", tweets_FDI$full_text)
 
 tokens_FDI <- tibble(text = FDI) %>%
   unnest_tokens(word, text) %>%
@@ -508,17 +501,17 @@ wordcloud(words = df_FDI$word, freq = df_FDI$freq, min.freq = 100,
           scale=c(2,0.60))
 
 
-FI <- as.character(FI_tweets$full_text)
-FI<- str_replace_all(FI_tweets$full_text, "[\'’]", "' ")
-FI<- gsub("\\$", "", FI_tweets$full_text) 
-FI <- gsub("@\\w+", "", FI_tweets$full_text)
-FI <- gsub("[[:punct:]]","", FI_tweets$full_text)
-FI <- gsub("http\\w+", "", FI_tweets$full_text)
-FI <- gsub("[ |\t]{2,}", "", FI_tweets$full_text)
-FI<- gsub("^ ", "", FI_tweets$full_text)
-FI <- gsub(" $", "", FI_tweets$full_text)
-FI <- gsub("href", "", FI_tweets$full_text)
-FI <- gsub("([0-9])","", FI_tweets$full_text)
+FI <- as.character(tweets_FI$full_text)
+FI<- str_replace_all(tweets_FI$full_text, "[\'’]", "' ")
+FI<- gsub("\\$", "", tweets_FI$full_text) 
+FI <- gsub("@\\w+", "", tweets_FI$full_text)
+FI <- gsub("[[:punct:]]","", tweets_FI$full_text)
+FI <- gsub("http\\w+", "", tweets_FI$full_text)
+FI <- gsub("[ |\t]{2,}", "", tweets_FI$full_text)
+FI<- gsub("^ ", "", tweets_FI$full_text)
+FI <- gsub(" $", "", tweets_FI$full_text)
+FI <- gsub("href", "", tweets_FI$full_text)
+FI <- gsub("([0-9])","", tweets_FI$full_text)
 
 tokens_FI <- tibble(text = FI) %>%
   unnest_tokens(word, text) %>%
@@ -547,17 +540,17 @@ wordcloud(words = df_FI$word, freq = df_FI$freq, min.freq = 100,
           scale=c(2,0.60))
 
 
-IV <- as.character(IV_tweets$full_text)
-IV<- str_replace_all(IV_tweets$full_text, "[\'’]", "' ")
-IV<- gsub("\\$", "", IV_tweets$full_text) 
-IV <- gsub("@\\w+", "", IV_tweets$full_text)
-IV <- gsub("[[:punct:]]","", IV_tweets$full_text)
-IV <- gsub("http\\w+", "", IV_tweets$full_text)
-IV <- gsub("[ |\t]{2,}", "", IV_tweets$full_text)
-IV<- gsub("^ ", "", IV_tweets$full_text)
-IV <- gsub(" $", "", IV_tweets$full_text)
-IV <- gsub("href", "", IV_tweets$full_text)
-IV <- gsub("([0-9])","", IV_tweets$full_text)
+IV <- as.character(tweets_IV$full_text)
+IV<- str_replace_all(tweets_IV$full_text, "[\'’]", "' ")
+IV<- gsub("\\$", "", tweets_IV$full_text) 
+IV <- gsub("@\\w+", "",tweets_IV$full_text)
+IV <- gsub("[[:punct:]]","",tweets_IV$full_text)
+IV <- gsub("http\\w+", "", tweets_IV$full_text)
+IV <- gsub("[ |\t]{2,}", "", tweets_IV$full_text)
+IV<- gsub("^ ", "", tweets_IV$full_text)
+IV <- gsub(" $", "", tweets_IV$full_text)
+IV <- gsub("href", "", tweets_IV$full_text)
+IV <- gsub("([0-9])","", tweets_IV$full_text)
 
 tokens_IV <- tibble(text = IV) %>%
   unnest_tokens(word, text) %>%
@@ -586,17 +579,17 @@ wordcloud(words = df_IV$word, freq = df_IV$freq, min.freq = 100,
           scale=c(2,0.60))
 
 
-lega <- as.character(lega_tweets$full_text)
-lega <- str_replace_all(lega_tweets$full_text, "[\'’]", "' ")
-lega <- gsub("\\$", "", lega_tweets$full_text) 
-lega <- gsub("@\\w+", "", lega_tweets$full_text)
-lega <- gsub("[[:punct:]]","", lega_tweets$full_text)
-lega <- gsub("http\\w+", "", lega_tweets$full_text)
-lega <- gsub("[ |\t]{2,}", "", lega_tweets$full_text)
-lega <- gsub("^ ", "", lega_tweets$full_text)
-lega <- gsub(" $", "", lega_tweets$full_text)
-lega <- gsub("href", "", lega_tweets$full_text)
-lega <- gsub("([0-9])","", lega_tweets$full_text)
+lega <- as.character(tweets_lega$full_text)
+lega <- str_replace_all(tweets_lega$full_text, "[\'’]", "' ")
+lega <- gsub("\\$", "", tweets_lega$full_text) 
+lega <- gsub("@\\w+", "", tweets_lega$full_text)
+lega <- gsub("[[:punct:]]","", tweets_lega$full_text)
+lega <- gsub("http\\w+", "", tweets_lega$full_text)
+lega <- gsub("[ |\t]{2,}", "", tweets_lega$full_text)
+lega <- gsub("^ ", "", tweets_lega$full_text)
+lega <- gsub(" $", "",tweets_lega$full_text)
+lega <- gsub("href", "", tweets_lega$full_text)
+lega <- gsub("([0-9])","", tweets_lega$full_text)
 
 tokens_lega <- tibble(text = lega) %>%
   unnest_tokens(word, text) %>%
@@ -625,17 +618,17 @@ wordcloud(words = df_lega$word, freq = df_lega$freq, min.freq = 100,
           scale=c(2,0.60))
 
 
-M5S <- as.character(M5S_tweets$full_text)
-M5S<- str_replace_all(M5S_tweets$full_text, "[\'’]", "' ")
-M5S<- gsub("\\$", "", M5S_tweets$full_text) 
-M5S <- gsub("@\\w+", "", M5S_tweets$full_text)
-M5S<- gsub("[[:punct:]]","", M5S_tweets$full_text)
-M5S <- gsub("http\\w+", "", M5S_tweets$full_text)
-M5S <- gsub("[ |\t]{2,}", "", M5S_tweets$full_text)
-M5S <- gsub("^ ", "", M5S_tweets$full_text)
-M5S <- gsub(" $", "", M5S_tweets$full_text)
-M5S <- gsub("href", "", M5S_tweets$full_text)
-M5S <- gsub("([0-9])","", M5S_tweets$full_text)
+M5S <- as.character(tweets_M5S$full_text)
+M5S<- str_replace_all(tweets_M5S$full_text, "[\'’]", "' ")
+M5S<- gsub("\\$", "", tweets_M5S$full_text) 
+M5S <- gsub("@\\w+", "", tweets_M5S$full_text)
+M5S<- gsub("[[:punct:]]","", tweets_M5S$full_text)
+M5S <- gsub("http\\w+", "", tweets_M5S$full_text)
+M5S <- gsub("[ |\t]{2,}", "", tweets_M5S$full_text)
+M5S <- gsub("^ ", "", tweets_M5S$full_text)
+M5S <- gsub(" $", "", tweets_M5S$full_text)
+M5S <- gsub("href", "",tweets_M5S$full_text)
+M5S <- gsub("([0-9])","", tweets_M5S$full_text)
 
 tokens_M5S <- tibble(text = M5S) %>%
   unnest_tokens(word, text) %>%
@@ -664,17 +657,17 @@ wordcloud(words = df_M5S$word, freq = df_M5S$freq, min.freq = 80,
           scale=c(2,0.60))
 
 
-PD <- as.character(PD_tweets$full_text)
-PD<- str_replace_all(PD_tweets$full_text, "[\'’]", "' ")
-PD<- gsub("\\$", "", PD_tweets$full_text) 
-PD <- gsub("@\\w+", "", PD_tweets$full_text)
-PD <- gsub("[[:punct:]]","", PD_tweets$full_text)
-PD <- gsub("http\\w+", "", PD_tweets$full_text)
-PD <- gsub("[ |\t]{2,}", "", PD_tweets$full_text)
-PD<- gsub("^ ", "", PD_tweets$full_text)
-PD <- gsub(" $", "", PD_tweets$full_text)
-PD <- gsub("href", "", PD_tweets$full_text)
-PD <- gsub("([0-9])","", PD_tweets$full_text)
+PD <- as.character(tweets_PD$full_text)
+PD<- str_replace_all(tweets_PD$full_text, "[\'’]", "' ")
+PD<- gsub("\\$", "", tweets_PD$full_text) 
+PD <- gsub("@\\w+", "", tweets_PD$full_text)
+PD <- gsub("[[:punct:]]","", tweets_PD$full_text)
+PD <- gsub("http\\w+", "", tweets_PD$full_text)
+PD <- gsub("[ |\t]{2,}", "", tweets_PD$full_text)
+PD<- gsub("^ ", "", tweets_PD$full_text)
+PD <- gsub(" $", "", tweets_PD$full_text)
+PD <- gsub("href", "", tweets_PD$full_text)
+PD <- gsub("([0-9])","", tweets_PD$full_text)
 
 tokens_PD <- tibble(text = PD) %>%
   unnest_tokens(word, text) %>%
@@ -703,6 +696,15 @@ wordcloud(words = df_PD$word, freq = df_PD$freq, min.freq = 90,
           scale=c(2,0.60))
 ```
 
+![](/Users/cristinapozzoli/Desktop/Capstone_Pozzoli/Word_clouds /Azione.jpeg)
+![](/Users/cristinapozzoli/Desktop/Capstone_Pozzoli/Word_clouds /FDI.jpeg)
+![](/Users/cristinapozzoli/Desktop/Capstone_Pozzoli/Word_clouds /FI.jpeg)
+![](/Users/cristinapozzoli/Desktop/Capstone_Pozzoli/Word_clouds /IV.jpeg)
+![](/Users/cristinapozzoli/Desktop/Capstone_Pozzoli/Word_clouds /lega.jpeg)
+![](/Users/cristinapozzoli/Desktop/Capstone_Pozzoli/Word_clouds /M5S.jpeg)
+![](/Users/cristinapozzoli/Desktop/Capstone_Pozzoli/Word_clouds /PD.jpeg)
+
+
 ## **Conclusions**
 
 From the results of this research emerged that, in absolute terms, Fratelli d'Italia is the party that tweeted more on Quatar and Iran issues, while the Partito Democratico was the one to publish more tweets on the war in Ukraine.
@@ -712,3 +714,7 @@ It is interesting to see that the tweets on the energetic crisis are almost equa
 By looking at the final plot, in which we find the relative frequencies, we can see that both the tweets on the war in Ukraine and the tweets on the Qatar-gate are more than 20% of total tweets.
 
 By looking at the word clouds we see that the only keyword, form the ones selected before, that emerged in each word cloud, is the word 'ucraina', so we can conclude that all the parties focus their attention on the war in Ukraine. While we can find none of the other keywords inside the word clouds. Instead, the most frequent words that we can find in each word cloud are 'italia', 'immigrazione', 'emergenza' and 'europa'.
+
+
+
+
