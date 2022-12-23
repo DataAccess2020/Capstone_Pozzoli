@@ -2,8 +2,9 @@
 #I have created a list for each political party, which contains the account of 
 # the party and the account of the leader. 
 
-# I create a data frame using the function 'lists_members' from 'rtweet' and using 
-# the list that I have created before. 
+# I import the lists and create a data frame using the function 
+# 'lists_members' from 'rtweet'. 
+
 
 italia_viva = lists_members(
   list_id = "1603691179392081922",
