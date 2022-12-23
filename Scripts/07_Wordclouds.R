@@ -7,6 +7,7 @@ library(stylo)
 
 
 # Before creating the word cloud it's necessary to clean the text 
+#First, I clean the text from hyperlinks, mentions, punctuation and so on.
 
 Azione <- as.character(Azione_tweets$full_text)
 Azione<- str_replace_all(Azione_tweets$full_text, "[\'’]", "' ")
@@ -20,6 +21,8 @@ Azione <- gsub(" $", "", Azione_tweets$full_text)
 Azione <- gsub("href", "", Azione_tweets$full_text)
 Azione <- gsub("([0-9])","", Azione_tweets$full_text)
 
+#Then I remove italian stopwords from the tweets and create a
+# tibble showing the frequency of each of the remaining words.
 
 stop_words_ita<-tibble(word=stopwords("it"))
 
@@ -29,6 +32,9 @@ tokens_Azione <- tibble(text = Azione) %>%
   count(word, sort = TRUE)
 
 tokens_Azione_save<-sapply(tokens_Azione, as.character)
+
+#Than I remove numbers and other useless words and I create a dataframe 
+# with words and frequency
 
 clean_Azione <- Corpus(VectorSource(tokens_Azione_save))
 
@@ -44,7 +50,7 @@ matrix_Azione <- as.matrix(matrix_Azione)
 words <- sort(rowSums(matrix_Azione),decreasing=TRUE) 
 df_Azione <- data.frame(word = names(words),freq=words) 
 
-#create the wordcloud 
+#In the end, I create the word cloud 
 library(wordcloud2)
 library(wordcloud)
 
@@ -52,6 +58,8 @@ wordcloud(words = df_Azione$word, freq = df_Azione$freq, min.freq = 100,
           max.words=100, random.order=FALSE, rot.per=0.35,
           colors=brewer.pal(8, "Dark2"),
           scale=c(2,0.60))
+
+#I repeat the process for each party 
 
 #Fratelli d'Italia 
 
