@@ -22,4 +22,7 @@ write.csv(tweets_M5S2, "M5S_tweets.csv", row.names = F, fileEncoding = "UTF-8")
 tweets_PD2 <- sapply(tweets_PD, as.character)
 write.csv(tweets_PD2, "PD_tweets.csv", row.names = F, fileEncoding = "UTF-8")
 
+#I have used the function 'sapply' and not the function 'apply' because with 
+# the latter the creation dates were saved as codes 
+
 
