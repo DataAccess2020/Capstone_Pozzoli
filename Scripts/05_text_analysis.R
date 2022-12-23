@@ -1,5 +1,6 @@
 
-# For the analysis of the tweets I create a regular expression for each topic 
+#I create a regular expression for each topic of interest in order to analyze 
+# the frequency of tweets for each party 
 
 regex_iran<- "([I|i]ran)|([M|m]ahsa [A|a]mini)"
 regex_ukr <- "([U|u]craina)|([Z|z]elensky)|([K|k]iev)|([P|p]utin)"
@@ -60,7 +61,7 @@ tweets_energia <- c("28", "27", "21", "15", "36", "37", "27")
 tweets_frequency <- data.frame(Parties, tweets_iran, 
                                tweets_ucraina, tweets_qatar, tweets_energia)
 
-# save the data frame 
+# I save the data frame 
 
 write.csv(tweets_frequency, "tweets_frequency.csv", 
           row.names = F, fileEncoding = "UTF-8")
